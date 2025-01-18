@@ -1,5 +1,7 @@
 export const NotionConfig = {
-  API_URL: 'https://idn-remote-jobs.notion.site/api/v3/queryCollection',
+  API_URL: 'https://idn-remote-jobs.notion.site/api/v3',
+  QUERY_COLLECTION_ENDPOINT: 'queryCollection',
+  LOAD_PAGE_ENDPOINT: 'loadCachedPageChunkV2',
   IDN_REMOTE_JOBS_ID: 'b283a30c-b670-4512-a4dd-c96210a2ca95',
   GET_OPTIONS: (limit: number) => ({
     source: {

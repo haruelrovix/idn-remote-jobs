@@ -4,10 +4,15 @@ import { FetchNotionDataUseCase } from 'src/application/use-cases/fetch-notion-d
 import { NotionController } from 'src/interface/rest/controllers/notion.controller';
 import { WebhooksController } from 'src/interface/rest/controllers/webhooks.controller';
 import { SendInteractiveMessageUseCase } from 'src/application/use-cases/send-interactive-message.use-case';
+import { FetchNotionPageUseCase } from 'src/application/use-cases/fetch-notion-page.use-case';
 
 @Module({
   imports: [ConfigModule.forRoot()],
   controllers: [NotionController, WebhooksController],
-  providers: [FetchNotionDataUseCase, SendInteractiveMessageUseCase],
+  providers: [
+    FetchNotionDataUseCase,
+    SendInteractiveMessageUseCase,
+    FetchNotionPageUseCase,
+  ],
 })
 export class AppModule {}

@@ -15,7 +15,8 @@ export interface JobData {
 @Injectable()
 export class FetchNotionDataUseCase {
   async execute(requestBody: any): Promise<JobData[]> {
-    const response = await fetch(NotionConfig.API_URL, {
+    const url = `${NotionConfig.API_URL}/${NotionConfig.QUERY_COLLECTION_ENDPOINT}`;
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
