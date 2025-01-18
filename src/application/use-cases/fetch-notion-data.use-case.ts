@@ -1,19 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { NotionQueryResponse } from 'src/domain/interfaces/notion-block.interface';
+import { NotionConfig } from 'src/infrastructure/configuration/notion.config';
 
 export interface JobData {
+  id: string;
   title: string;
   description: string;
-  tags: string;
-  url: string;
+  country?: string;
+  tags?: string;
+  url?: string;
 }
 
 @Injectable()
 export class FetchNotionDataUseCase {
-  private readonly API_URL = 'https://idn-remote-jobs.notion.site/api/v3/queryCollection';
-
   async execute(requestBody: any): Promise<JobData[]> {
-    const response = await fetch(this.API_URL, {
+    const response = await fetch(NotionConfig.API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,15 +36,19 @@ export class FetchNotionDataUseCase {
 
       // Only add jobs with a non-'Untitled' title
       if (title !== 'Untitled') {
-        const description = block.properties?.dWBj?.[0]?.[0] || 'No description';
+        const description =
+          block.properties?.dWBj?.[0]?.[0] || 'No description';
         const tags = block.properties?.['L{b{']?.[0]?.[0] || 'No tags';
         const url = block.properties?.['=a>r']?.[0]?.[0] || 'No URL';
+        const country = block.properties?.['~yj~']?.[0]?.[0] || 'Unknown';
 
         jobsData.push({
+          id: block.id,
           title,
           description,
+          country,
           tags,
-          url
+          url,
         });
       }
     }

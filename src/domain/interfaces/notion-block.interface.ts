@@ -1,11 +1,11 @@
 export interface BlockProperties {
   title?: [string[]];
-  "=a>r"?: [string[], [["a", string]]];
+  '=a>r'?: [string[], [['a', string]]];
   ICod?: [string[]];
-  "L{b{"?: [string[]];
-  cTXG?: [string[], [["d", { type: string; start_date: string }]]];
+  'L{b{'?: [string[]];
+  cTXG?: [string[], [['d', { type: string; start_date: string }]]];
   dWBj?: [string[]];
-  "~yj~"?: [string[]];
+  '~yj~'?: [string[]];
 }
 
 export interface NotionBlock {
