@@ -1,5 +1,6 @@
 export const NotionConfig = {
   API_URL: 'https://idn-remote-jobs.notion.site/api/v3/queryCollection',
+  IDN_REMOTE_JOBS_ID: 'b283a30c-b670-4512-a4dd-c96210a2ca95',
   GET_OPTIONS: (limit: number) => ({
     source: {
       type: 'collection',
@@ -35,4 +36,10 @@ export const NotionConfig = {
       userTimeZone: 'Asia/Jakarta',
     },
   }),
+  LIST_MESSAGE_OPTIONS: {
+    header: 'Remote Jobs for IDN Talents 🇮🇩',
+    body: '\nThis list contains remote vacancies that are open to Indonesian talents. Every vacancy here is crowd-sourced from the community.\n\nWhile every effort is made to maintain accuracy and safety _(including regular content moderation)_, we encourage you to verify details independently.\n',
+    actionButton: 'Remote Jobs',
+    footer: '❤️‍🔥 Powered by Notion, Ghazlabs & Semboja',
+  },
 };

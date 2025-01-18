@@ -5,6 +5,7 @@ import { NotionConfig } from 'src/infrastructure/configuration/notion.config';
 export interface JobData {
   id: string;
   title: string;
+  company: string;
   description: string;
   country?: string;
   tags?: string;
@@ -41,10 +42,12 @@ export class FetchNotionDataUseCase {
         const tags = block.properties?.['L{b{']?.[0]?.[0] || 'No tags';
         const url = block.properties?.['=a>r']?.[0]?.[0] || 'No URL';
         const country = block.properties?.['~yj~']?.[0]?.[0] || 'Unknown';
+        const company = block.properties?.['ICod']?.[0]?.[0] || 'Unknown';
 
         jobsData.push({
           id: block.id,
           title,
+          company,
           description,
           country,
           tags,

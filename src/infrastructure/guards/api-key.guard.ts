@@ -9,7 +9,7 @@ import { Request } from 'express';
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
-  private readonly apiKey = process.env.API_KEY;
+  private readonly apiKey = process.env.GOSHAWK_API_KEY;
 
   canActivate(
     context: ExecutionContext,
