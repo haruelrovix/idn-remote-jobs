@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { InteractiveMessageData, ListMessageDto } from 'src/domain/interfaces/interactive-message.interface';
+import { InteractiveMessageData } from 'src/domain/interfaces/interactive-message.interface';
 import { SembojaConfig } from 'src/infrastructure/configuration/semboja.config';
 
 @Injectable()
