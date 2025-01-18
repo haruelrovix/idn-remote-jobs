@@ -44,4 +44,12 @@ export const NotionConfig = {
     actionButton: 'Remote Jobs',
     footer: '❤️‍🔥 Powered by Notion, Ghazlabs & Semboja',
   },
+  DATA_MAPPING: {
+    TAGS: 'L{b{',
+    COMPANY: 'ICod',
+    JOB_TITLE: 'title',
+    JOB_DESCRIPTION: 'dWBj',
+    JOB_URL: '=a>r',
+    JOB_COUNTRY: '~yj~',
+  },
 };

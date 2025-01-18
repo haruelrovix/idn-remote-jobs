@@ -11,7 +11,10 @@ import {
   FetchNotionDataUseCase,
   JobData,
 } from 'src/application/use-cases/fetch-notion-data.use-case';
-import { FetchNotionPageUseCase } from 'src/application/use-cases/fetch-notion-page.use-case';
+import {
+  FetchNotionPageUseCase,
+  JobDetail,
+} from 'src/application/use-cases/fetch-notion-page.use-case';
 import { NotionConfig } from 'src/infrastructure/configuration/notion.config';
 import { ApiKeyGuard } from 'src/infrastructure/guards/api-key.guard';
 
@@ -38,7 +41,7 @@ export class NotionController {
   }
 
   @Get('jobs/:uid')
-  async fetchRemoteJobDetail(@Param('uid') uid: string): Promise<JobData> {
+  async fetchRemoteJobDetail(@Param('uid') uid: string): Promise<JobDetail> {
     return this.fetchNotionPageUseCase.execute(uid);
   }
 }

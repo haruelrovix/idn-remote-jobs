@@ -32,21 +32,23 @@ export class FetchNotionDataUseCase {
 
     const blocks = data.recordMap.block;
     const jobsData: JobData[] = [];
+    const { JOB_TITLE, JOB_DESCRIPTION, TAGS, JOB_URL, JOB_COUNTRY, COMPANY } =
+      NotionConfig.DATA_MAPPING;
+
     for (const blockId in blocks) {
-      const block = blocks[blockId].value;
-      const title = block.properties?.title?.[0]?.[0] || 'Untitled';
+      const { properties: it, id } = blocks[blockId].value;
+      const title = it?.[JOB_TITLE]?.[0]?.[0] || 'Untitled';
 
       // Only add jobs with a non-'Untitled' title
       if (title !== 'Untitled') {
-        const description =
-          block.properties?.dWBj?.[0]?.[0] || 'No description';
-        const tags = block.properties?.['L{b{']?.[0]?.[0] || 'No tags';
-        const url = block.properties?.['=a>r']?.[0]?.[0] || 'No URL';
-        const country = block.properties?.['~yj~']?.[0]?.[0] || 'Unknown';
-        const company = block.properties?.['ICod']?.[0]?.[0] || 'Unknown';
+        const description = it?.[JOB_DESCRIPTION]?.[0]?.[0] || 'No description';
+        const tags = it?.[TAGS]?.[0]?.[0] || 'No tags';
+        const url = it?.[JOB_URL]?.[0]?.[0] || 'No URL';
+        const country = it?.[JOB_COUNTRY]?.[0]?.[0] || 'Unknown';
+        const company = it?.[COMPANY]?.[0]?.[0] || 'Unknown';
 
         jobsData.push({
-          id: block.id,
+          id,
           title,
           company,
           description,

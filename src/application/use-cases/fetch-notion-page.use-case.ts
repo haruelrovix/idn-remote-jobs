@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { NotionQueryResponse } from 'src/domain/interfaces/notion-block.interface';
 import { NotionConfig } from 'src/infrastructure/configuration/notion.config';
 
-export interface JobData {
+export interface JobDetail {
   id: string;
   title: string;
   company: string;
@@ -18,7 +18,7 @@ export interface JobData {
 
 @Injectable()
 export class FetchNotionPageUseCase {
-  async execute(id: string): Promise<JobData> {
+  async execute(id: string): Promise<JobDetail> {
     const endpoint = `${NotionConfig.API_URL}/${NotionConfig.LOAD_PAGE_ENDPOINT}`;
     const response = await fetch(endpoint, {
       method: 'POST',
@@ -43,14 +43,19 @@ export class FetchNotionPageUseCase {
       return null;
     }
 
-    const description = block.properties?.dWBj?.[0]?.[0] || 'No description';
-    const tags = block.properties?.['L{b{']?.[0]?.[0] || 'No tags';
-    const url = block.properties?.['=a>r']?.[0]?.[0] || 'No URL';
-    const country = block.properties?.['~yj~']?.[0]?.[0] || 'Unknown';
-    const company = block.properties?.['ICod']?.[0]?.[0] || 'Unknown';
-    const title = block.properties?.['title']?.[0]?.[0] || 'No title';
+    const { properties: it } = block;
 
-    const jobData: JobData = {
+    const { JOB_TITLE, JOB_DESCRIPTION, TAGS, JOB_URL, JOB_COUNTRY, COMPANY } =
+      NotionConfig.DATA_MAPPING;
+
+    const description = it?.[JOB_DESCRIPTION]?.[0]?.[0] || 'No description';
+    const tags = it?.[TAGS]?.[0]?.[0] || 'No tags';
+    const url = it?.[JOB_URL]?.[0]?.[0] || 'No URL';
+    const country = it?.[JOB_COUNTRY]?.[0]?.[0] || 'Unknown';
+    const company = it?.[COMPANY]?.[0]?.[0] || 'Unknown';
+    const title = it?.[JOB_TITLE]?.[0]?.[0] || 'No title';
+
+    const jobData: JobDetail = {
       id,
       title,
       description,
