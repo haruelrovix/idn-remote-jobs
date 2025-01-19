@@ -23,11 +23,6 @@ A NestJS-based serverless application that retrieves job data from a Notion site
 ## Overview
 A NestJS-based serverless application that retrieves job data from a Notion site and sends notifications via WhatsApp.
 
-## Features
-- Fetch remote job listings from Notion
-- Serverless deployment on AWS Lambda
-- WhatsApp notification integration
-
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
