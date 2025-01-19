@@ -1,0 +1,30 @@
+service: semboja-idn-remote-jobs-layers
+
+plugins:
+  - serverless-deployment-bucket
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: ap-southeast-3
+  deploymentBucket:
+    name: ${self:service}-${sls:stage}
+
+layers:
+  SembojaIDNRemoteJobs:
+    path: ghazlabs
+    description: "Lambda layer contain IDN Remoe Jobs dependencies"
+    name: semboja-idn-remote-jobs-layer-${sls:stage}
+    compatibleRuntimes:
+      - nodejs22.x
+    compatibleArchitectures:
+      - x86_64
+
+resources:
+  Outputs:
+    SembojaIDNRemoteJobsLayerArn:
+      Description: "ARN of the Semboja IDN Remote Jobs Layer"
+      Value:
+        Ref: SembojaIDNRemoteJobsLambdaLayer
+      Export:
+        Name: ${self:service}:${sls:stage}:SembojaIDNRemoteJobsLayer

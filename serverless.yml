@@ -1,0 +1,61 @@
+service: semboja-idn-remote-jobs
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: ap-southeast-3
+  apiName: ${self:service}-${sls:stage}
+  deploymentBucket:
+    name: ${self:service}-${sls:stage}
+  environment:
+    NODE_PATH: "./:/opt/node_modules"
+    SEMBOJA_API_KEY: ${env:SEMBOJA_API_URL}
+    SEMBOJA_API_URL: ${env:SEMBOJA_API_URL}
+    GOSHAWK_API_KEY: ${env:GOSHAWK_API_KEY}
+
+custom:
+  serverless-offline:
+    httpPort: 8080
+    lambdaPort: 3030
+
+functions:
+  app:
+    name: ${self:service}-app-${sls:stage}
+    handler: dist/main.handler
+    events:
+      - http:
+          path: webhooks/remote-jobs
+          method: post
+      - http:
+          path: jobs
+          method: get
+      - http:
+          path: jobs/{id}
+          method: get
+    layers:
+      - ${semboja-aws-layers.SembojaIDNRemoteJobsLayerArn}
+
+package:
+  individually: true
+  exclude:
+    - node_modules/**
+    - .git/**
+    - layers/**
+    - nest-cli.json
+    - node_modules
+    - package-lock.json
+    - package.json
+    - serverless-compose.yaml
+    - serverless.yml
+    - tsconfig.build.json
+    - tsconfig.json
+    - update-headers.sh
+    - webpack.config.js
+    - .prettierrc
+    - .eslintrc.js
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-offline

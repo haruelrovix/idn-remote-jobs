@@ -1,0 +1,29 @@
+{
+  "name": "semboja-idn-remote-jobs-layers",
+  "version": "1.0.0",
+  "description": "AWS Lambda layers for Serverless IDN Remote Jobs",
+  "scripts": {
+    "deploy:dev": "sls deploy --stage dev",
+    "deploy:prod": "sls deploy --stage prod"
+  },
+  "author": "haruelrovix",
+  "license": "MIT",
+  "dependencies": {
+    "@codegenie/serverless-express": "^4.16.0",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/core": "^10.4.15",
+    "@nestjs/platform-express": "^10.4.15",
+    "@nestjs/swagger": "^8.1.0",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1692.0",
+    "aws-serverless-express": "^3.4.0",
+    "axios": "^1.7.9",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "dotenv": "^16.4.7",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.8.1",
+    "uuid": "^11.0.3"
+  }
+}

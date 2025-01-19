@@ -1,3 +1,32 @@
+# IDN Remote Jobs Wrapper
+
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://assets.semboja.tech/i/ghazlabs-semboja.png" width="250" alt="Ghazlabs x Semboja Logo" /></a>
+</p>
+
+## Overview
+A NestJS-based serverless application that retrieves job data from a Notion site and sends notifications via WhatsApp.
+
+## Features
+- Fetch 10 remote job listings from [IDN Remote Jobs Notion](https://idn-remote-jobs.notion.site/)
+- Serverless deployment on AWS Lambda
+- WhatsApp notification integration
+
+## Todos
+- [x] MVP
+- [x] Add Serverless wrapper
+- [x] Deploy to AWS Lambda
+- [ ] Fetch more remote jobs, based on user inquiry
+- [ ] Add search feature
+
+## Overview
+A NestJS-based serverless application that retrieves job data from a Notion site and sends notifications via WhatsApp.
+
+## Features
+- Fetch remote job listings from Notion
+- Serverless deployment on AWS Lambda
+- WhatsApp notification integration
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
