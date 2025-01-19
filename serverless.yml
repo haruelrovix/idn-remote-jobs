@@ -11,8 +11,8 @@ provider:
     name: ${self:service}-${sls:stage}
   environment:
     NODE_PATH: "./:/opt/node_modules"
-    SEMBOJA_API_KEY: ${env:SEMBOJA_API_URL}
     SEMBOJA_API_URL: ${env:SEMBOJA_API_URL}
+    SEMBOJA_API_KEY: ${env:SEMBOJA_API_KEY}
     GOSHAWK_API_KEY: ${env:GOSHAWK_API_KEY}
 
 custom:
