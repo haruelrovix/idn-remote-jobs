@@ -6,5 +6,7 @@ export const getNextValues = (
   const startIndex = array.indexOf(startValue);
   if (startIndex === -1) return [];
 
-  return array.slice(startIndex, startIndex + count);
+  const nextIndex = startIndex + 1;
+
+  return array.slice(nextIndex, nextIndex + count);
 };
