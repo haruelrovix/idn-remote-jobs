@@ -1,6 +1,6 @@
 {
   "name": "idn-remote-jobs",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A wrapper to get data from https://idn-remote-jobs.notion.site/ then send it via WhatsApp",
   "author": "haruelrovix",
   "license": "MIT",
