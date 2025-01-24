@@ -35,7 +35,7 @@ functions:
           path: jobs/{id}
           method: get
     layers:
-      - ${semboja-aws-layers.SembojaIDNRemoteJobsLayerArn}
+      - { "Fn::ImportValue": "semboja-idn-remote-jobs-layers:${sls:stage}:SembojaIDNRemoteJobsLayer" }
 
 package:
   individually: true

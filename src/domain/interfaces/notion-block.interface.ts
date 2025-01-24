@@ -32,4 +32,5 @@ export interface RecordMap {
 
 export interface NotionQueryResponse {
   recordMap: RecordMap;
+  allBlockIds: string[];
 }

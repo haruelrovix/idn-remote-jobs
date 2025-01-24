@@ -18,7 +18,11 @@ export interface JobDetail {
 
 @Injectable()
 export class FetchNotionPageUseCase {
-  async execute(id: string): Promise<JobDetail> {
+  async execute(
+    id: string,
+    limit: number = 30,
+    verticalColumns: boolean = false,
+  ): Promise<JobDetail> {
     const endpoint = `${NotionConfig.API_URL}/${NotionConfig.LOAD_PAGE_ENDPOINT}`;
     const response = await fetch(endpoint, {
       method: 'POST',
@@ -27,8 +31,8 @@ export class FetchNotionPageUseCase {
       },
       body: JSON.stringify({
         page: { id },
-        limit: 30,
-        verticalColumns: false,
+        limit,
+        verticalColumns,
       }),
     });
 
