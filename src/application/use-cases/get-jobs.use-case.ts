@@ -1,6 +1,11 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { IJobsRepository } from '@domain/interfaces/jobs-repository.interface';
-import { JobEntity, JobsType } from '@domain/entities/job.entity';
+import {
+  JobEntity,
+  JobsType,
+  JobUniqueField,
+  JobUniqueResponse,
+} from '@domain/entities/job.entity';
 import { ExternalJobsService } from '@application/services/external-jobs.service';
 import { RedisConfig } from '@infrastructure/configuration/redis.config';
 
@@ -62,6 +67,10 @@ export class GetJobsUseCase {
     }
 
     return jobs;
+  }
+
+  async getJobFilters(fields: JobUniqueField[]): Promise<JobUniqueResponse> {
+    return this.jobsRepository.getUniqueValues(fields);
   }
 
   private delay(ms: number): Promise<void> {

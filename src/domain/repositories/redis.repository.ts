@@ -1,5 +1,9 @@
 import { RedisService } from '@application/services/redis.service';
-import { JobEntity } from '@domain/entities/job.entity';
+import {
+  JobEntity,
+  JobUniqueField,
+  JobUniqueResponse,
+} from '@domain/entities/job.entity';
 import { IJobsRepository } from '@domain/interfaces/jobs-repository.interface';
 import { BaseJobsRepository } from '@domain/repositories/base.repository';
 import { BasicRedisStrategy } from '@domain/repositories/basic-redis.strategy';
@@ -140,5 +144,36 @@ export class RedisOMJobsRepository implements IJobsRepository, OnModuleInit {
           url: job.url,
         }),
     );
+  }
+
+  /**
+   * Get unique values for a specific field
+   */
+  async getUniqueValues(fields: JobUniqueField[]): Promise<JobUniqueResponse> {
+    const allResults = await this.repository.search().return.all();
+
+    // Extract unique values from the field
+    const uniqueValues = {};
+    for (const field of fields) {
+      uniqueValues[field] = [...new Set(allResults.map((item) => item[field]))]
+        .filter(Boolean) // Remove null/undefined values
+        .sort((a, b) => a.localeCompare(b)); // Sort alphabetically
+    }
+
+    return uniqueValues;
+  }
+
+  /**
+   * Get all unique countries
+   */
+  async getUniqueCountries(): Promise<JobUniqueResponse> {
+    return this.getUniqueValues([JobUniqueField.COUNTRY]);
+  }
+
+  /**
+   * Get all unique companies
+   */
+  async getUniqueCompanies(): Promise<JobUniqueResponse> {
+    return this.getUniqueValues([JobUniqueField.COMPANY]);
   }
 }

@@ -28,6 +28,7 @@ functions:
   app:
     name: ${self:service}-app-${sls:stage}
     handler: dist/main.handler
+    timeout: 10
     events:
       - http:
           path: webhooks/remote-jobs
@@ -40,6 +41,9 @@ functions:
           method: get
       - http:
           path: remote-jobs
+          method: get
+      - http:
+          path: remote-jobs/unique-values
           method: get
     layers:
       - { "Fn::ImportValue": "semboja-idn-remote-jobs-layers:${sls:stage}:SembojaIDNRemoteJobsLayer" }
