@@ -1,5 +1,6 @@
+import { SearchMethod } from '@domain/enums/search.enum';
 import { Transform } from 'class-transformer';
-import { IsOptional, IsInt, Min, IsString } from 'class-validator';
+import { IsOptional, IsInt, Min, IsString, IsEnum } from 'class-validator';
 
 export class GetJobsDto {
   @IsOptional()
@@ -10,5 +11,21 @@ export class GetJobsDto {
 
   @IsOptional()
   @IsString()
-  search?: string;
+  searchKeyword?: string;
+
+  @IsOptional()
+  @IsEnum(SearchMethod)
+  searchMethod?: SearchMethod;
+
+  @IsOptional()
+  @IsString()
+  companyLocation?: string;
+
+  @IsOptional()
+  @IsString()
+  companyName?: string;
+
+  @IsOptional()
+  @IsString()
+  sendTo?: string;
 }

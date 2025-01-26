@@ -1,4 +1,4 @@
-import { JobUniqueField } from '@domain/entities/job.entity';
+import { JobUniqueField } from '@domain/enums/job.enum';
 import { Transform } from 'class-transformer';
 import {
   ArrayUnique,

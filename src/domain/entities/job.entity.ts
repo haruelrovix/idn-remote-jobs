@@ -12,18 +12,5 @@ export class JobEntity {
   url: string;
 }
 
-export enum JobField {
-  COMPANY = 'company',
-  COUNTRY = 'country',
-  DESCRIPTION = 'description',
-  TITLE = 'title',
-  TAGS = 'tags',
-}
-
-export enum JobUniqueField {
-  COMPANY = 'company',
-  COUNTRY = 'country',
-}
-
 export type JobsType = JobEntity[] | PromiseLike<JobEntity[]>;
 export type JobUniqueResponse = { [x: string]: string[] };

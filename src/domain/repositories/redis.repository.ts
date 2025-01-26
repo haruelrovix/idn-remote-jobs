@@ -1,9 +1,8 @@
 import { RedisService } from '@application/services/redis.service';
-import {
-  JobEntity,
-  JobUniqueField,
-  JobUniqueResponse,
-} from '@domain/entities/job.entity';
+import { GetJobsDto } from '@domain/dtos/get-jobs.dto';
+import { JobEntity, JobUniqueResponse } from '@domain/entities/job.entity';
+import { JobUniqueField } from '@domain/enums/job.enum';
+import { SearchMethod } from '@domain/enums/search.enum';
 import { IJobsRepository } from '@domain/interfaces/jobs-repository.interface';
 import { BaseJobsRepository } from '@domain/repositories/base.repository';
 import { BasicRedisStrategy } from '@domain/repositories/basic-redis.strategy';
@@ -115,22 +114,36 @@ export class RedisOMJobsRepository implements IJobsRepository, OnModuleInit {
   /**
    * Search jobs based on a query
    */
-  async searchJobs(query: string, limit: number): Promise<JobEntity[]> {
-    const fuzzyQuery = `*${query}*`; // Add wildcards for fuzzy matching
+  async searchJobs(
+    search: Partial<GetJobsDto>,
+    limit: number,
+  ): Promise<JobEntity[]> {
+    const { searchKeyword, searchMethod, companyName, companyLocation } =
+      search;
 
-    const jobs = await this.repository
+    const query =
+      searchMethod === SearchMethod.FUZZY
+        ? `*${searchKeyword}*` // Add wildcards for fuzzy matching
+        : searchKeyword;
+
+    const chain = this.repository
       .search()
       .where('title')
-      .matches(fuzzyQuery)
-      .or('company')
-      .matches(fuzzyQuery)
+      .matches(query)
       .or('description')
-      .matches(fuzzyQuery)
-      .or('country')
-      .matches(fuzzyQuery)
+      .matches(query)
       .or('tags')
-      .matches(fuzzyQuery)
-      .returnPage(0, limit);
+      .matches(query);
+
+    if (companyName) {
+      chain.and('company').matches(companyName);
+    }
+
+    if (companyLocation) {
+      chain.and('country').matches(companyLocation);
+    }
+
+    const jobs = await chain.returnPage(0, limit);
 
     return jobs.map(
       (job) =>

@@ -3,11 +3,12 @@ import { IJobsRepository } from '@domain/interfaces/jobs-repository.interface';
 import {
   JobEntity,
   JobsType,
-  JobUniqueField,
   JobUniqueResponse,
 } from '@domain/entities/job.entity';
+import { JobUniqueField } from '@domain/enums/job.enum';
 import { ExternalJobsService } from '@application/services/external-jobs.service';
 import { RedisConfig } from '@infrastructure/configuration/redis.config';
+import { GetJobsDto } from '@domain/dtos/get-jobs.dto';
 
 @Injectable()
 export class GetJobsUseCase {
@@ -18,12 +19,21 @@ export class GetJobsUseCase {
     private readonly externalJobsService: ExternalJobsService,
   ) {}
 
-  async execute(limit: number, search?: string): Promise<JobEntity[]> {
+  async execute(
+    limit: number,
+    search?: Partial<GetJobsDto>,
+  ): Promise<JobEntity[]> {
     // Attempt to get jobs from the repository (Redis OM)
     let jobs: JobsType = await this.jobsRepository.getJobs(limit);
 
     if (jobs) {
       this.logger.log('Cache hit: Returning jobs from Redis.');
+
+      // @TODO: Check if there's better way. I don't like this two calls.
+      if (search) {
+        jobs = await this.jobsRepository.searchJobs(search, limit);
+      }
+
       return jobs;
     }
 
