@@ -1,6 +1,6 @@
+import { createHttpHandler } from '@infrastructure/http.bootstrap';
+import { AppModule } from '@infrastructure/modules/app.module';
 import { Callback, Context, Handler } from 'aws-lambda';
-import { createHttpHandler } from './http.bootstrap';
-import { AppModule } from './modules/app.module';
 
 let server: Handler;
 

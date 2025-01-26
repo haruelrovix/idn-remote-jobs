@@ -11,9 +11,11 @@ provider:
     name: ${self:service}-${sls:stage}
   environment:
     NODE_PATH: "./:/opt/node_modules"
-    SEMBOJA_API_URL: ${env:SEMBOJA_API_URL}
     SEMBOJA_API_KEY: ${env:SEMBOJA_API_KEY}
+    SEMBOJA_API_URL: ${env:SEMBOJA_API_URL}
     GOSHAWK_API_KEY: ${env:GOSHAWK_API_KEY}
+    GOSHAWK_API_URL: ${env:GOSHAWK_API_URL}
+    REDIS_URL: ${env:REDIS_URL}
 
 custom:
   serverless-offline:
@@ -33,6 +35,9 @@ functions:
           method: get
       - http:
           path: jobs/{id}
+          method: get
+      - http:
+          path: remote-jobs
           method: get
     layers:
       - { "Fn::ImportValue": "semboja-idn-remote-jobs-layers:${sls:stage}:SembojaIDNRemoteJobsLayer" }
