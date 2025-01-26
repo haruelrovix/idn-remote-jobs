@@ -11,3 +11,5 @@ export class JobEntity {
   tags: string;
   url: string;
 }
+
+export type JobsType = JobEntity[] | PromiseLike<JobEntity[]>;

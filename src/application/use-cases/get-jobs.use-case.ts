@@ -1,7 +1,8 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { IJobsRepository } from '@domain/interfaces/jobs-repository.interface';
-import { JobEntity } from '@domain/entities/job.entity';
+import { JobEntity, JobsType } from '@domain/entities/job.entity';
 import { ExternalJobsService } from '@application/services/external-jobs.service';
+import { RedisConfig } from '@infrastructure/configuration/redis.config';
 
 @Injectable()
 export class GetJobsUseCase {
@@ -12,9 +13,9 @@ export class GetJobsUseCase {
     private readonly externalJobsService: ExternalJobsService,
   ) {}
 
-  async execute(limit: number): Promise<JobEntity[]> {
+  async execute(limit: number, search?: string): Promise<JobEntity[]> {
     // Attempt to get jobs from the repository (Redis OM)
-    let jobs = await this.jobsRepository.getJobs(limit);
+    let jobs: JobsType = await this.jobsRepository.getJobs(limit);
 
     if (jobs) {
       this.logger.log('Cache hit: Returning jobs from Redis.');
@@ -32,7 +33,7 @@ export class GetJobsUseCase {
         this.logger.log('Lock acquired: Fetching jobs from external API.');
         jobs = await this.externalJobsService.fetchJobs(limit);
 
-        await this.jobsRepository.saveJobs(jobs, 600); // Save with TTL (10 minutes)
+        await this.jobsRepository.saveJobs(jobs, RedisConfig.CACHE_TTL); // Save with TTL (10 minutes)
 
         this.logger.log('Jobs fetched and saved to Redis.');
       } catch (error) {
@@ -54,6 +55,10 @@ export class GetJobsUseCase {
         this.logger.warn('Data not available even after waiting.');
         throw new Error('Failed to retrieve jobs.');
       }
+    }
+
+    if (search) {
+      jobs = await this.jobsRepository.searchJobs(search, limit);
     }
 
     return jobs;

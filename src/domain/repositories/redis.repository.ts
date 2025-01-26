@@ -112,12 +112,20 @@ export class RedisOMJobsRepository implements IJobsRepository, OnModuleInit {
    * Search jobs based on a query
    */
   async searchJobs(query: string, limit: number): Promise<JobEntity[]> {
+    const fuzzyQuery = `*${query}*`; // Add wildcards for fuzzy matching
+
     const jobs = await this.repository
       .search()
       .where('title')
-      .matches(query)
+      .matches(fuzzyQuery)
+      .or('company')
+      .matches(fuzzyQuery)
       .or('description')
-      .matches(query)
+      .matches(fuzzyQuery)
+      .or('country')
+      .matches(fuzzyQuery)
+      .or('tags')
+      .matches(fuzzyQuery)
       .returnPage(0, limit);
 
     return jobs.map(
