@@ -1,7 +1,11 @@
 import { RedisService } from '@application/services/redis.service';
 import { JobEntity } from '@domain/entities/job.entity';
 import { IJobsRepository } from '@domain/interfaces/jobs-repository.interface';
+import { BaseJobsRepository } from '@domain/repositories/base.repository';
+import { BasicRedisStrategy } from '@domain/repositories/basic-redis.strategy';
+import { RedisSearchStrategy } from '@domain/repositories/redis-search.strategy';
 import { JobSchema, namespace } from '@domain/schemas/job.schema';
+import { RedisConfig } from '@infrastructure/configuration/redis.config';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { RedisClientType } from 'redis';
 import { RedisConnection, Repository } from 'redis-om';
@@ -10,6 +14,8 @@ import { RedisConnection, Repository } from 'redis-om';
 export class RedisOMJobsRepository implements IJobsRepository, OnModuleInit {
   private repository: Repository<Record<string, any>>;
   private redisClient: RedisClientType;
+  private strategy: BaseJobsRepository;
+
   private readonly LOCK_KEY = `${namespace}:locks:jobs:fetch`;
   private readonly LOCK_TTL = 5000; // 5 seconds
 
@@ -20,7 +26,16 @@ export class RedisOMJobsRepository implements IJobsRepository, OnModuleInit {
   ): Promise<void> {
     this.repository = new Repository(JobSchema, client);
 
-    await this.repository.createIndex();
+    if (RedisConfig.IS_SEARCH_ENABLED) {
+      await this.repository.createIndex();
+      this.strategy = new RedisSearchStrategy(
+        this.redisClient,
+        namespace,
+        this.repository,
+      );
+    } else {
+      this.strategy = new BasicRedisStrategy(this.redisClient, namespace);
+    }
   }
 
   async onModuleInit(): Promise<void> {
@@ -59,24 +74,7 @@ export class RedisOMJobsRepository implements IJobsRepository, OnModuleInit {
       return null;
     }
 
-    const jobs = await this.repository.search().returnPage(0, limit);
-
-    if (jobs.length === 0) {
-      return null;
-    }
-
-    return jobs.map(
-      (job: JobEntity) =>
-        new JobEntity({
-          id: job.id,
-          title: job.title,
-          description: job.description,
-          company: job.company,
-          country: job.country,
-          tags: job.tags,
-          url: job.url,
-        }),
-    );
+    return this.strategy.getJobs(limit);
   }
 
   /**

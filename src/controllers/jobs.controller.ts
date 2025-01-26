@@ -1,7 +1,13 @@
 import { GetJobsUseCase } from '@application/use-cases/get-jobs.use-case';
 import { JobEntity } from '@domain/entities/job.entity';
 import { ApiKeyGuard } from '@infrastructure/guards/api-key.guard';
-import { Controller, Get, Query, BadRequestException, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  BadRequestException,
+  UseGuards,
+} from '@nestjs/common';
 
 @Controller()
 @UseGuards(ApiKeyGuard)

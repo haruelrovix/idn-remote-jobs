@@ -16,6 +16,8 @@ provider:
     GOSHAWK_API_KEY: ${env:GOSHAWK_API_KEY}
     GOSHAWK_API_URL: ${env:GOSHAWK_API_URL}
     REDIS_URL: ${env:REDIS_URL}
+    REDIS_SEARCH_ENABLED: ${env:REDIS_SEARCH_ENABLED}
+    REDIS_CACHE_TTL: ${env:REDIS_CACHE_TTL}
 
 custom:
   serverless-offline:
@@ -41,6 +43,7 @@ functions:
           method: get
     layers:
       - { "Fn::ImportValue": "semboja-idn-remote-jobs-layers:${sls:stage}:SembojaIDNRemoteJobsLayer" }
+      - { "Fn::ImportValue": "semboja-idn-remote-jobs-layers:${sls:stage}:SembojaRedisLayer" }
 
 package:
   individually: true
