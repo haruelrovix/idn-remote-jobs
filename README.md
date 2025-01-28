@@ -16,8 +16,8 @@ A NestJS-based serverless application that retrieves job data from a Notion site
 - [x] MVP
 - [x] Add Serverless wrapper
 - [x] Deploy to AWS Lambda
-- [ ] Fetch more remote jobs, based on user inquiry
-- [ ] Add a search feature
+- [x] Fetch more remote jobs, based on user inquiry
+- [x] Add a search feature
 - [ ] More comprehensive Documentation
 
 ## Overview
