@@ -19,14 +19,20 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "paths": {
-      "@infrastructure/*": [
-        "src/infrastructure/*"
+      "@application/*": [
+        "src/application/*"
+      ],
+      "@controllers/*": [
+        "src/controllers/*"
       ],
       "@domain/*": [
         "src/domain/*"
       ],
-      "@application/*": [
-        "src/application/*"
+      "@infrastructure/*": [
+        "src/infrastructure/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
       ],
     }
   }

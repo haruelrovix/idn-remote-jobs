@@ -42,7 +42,8 @@ export const NotionConfig = {
     header: 'Remote Jobs for IDN Talents 🇮🇩',
     body: '\nThis list contains remote vacancies that are open to Indonesian talents. Every vacancy here is crowd-sourced from the community.\n\nWhile every effort is made to maintain accuracy and safety _(including regular content moderation)_, we encourage you to verify details independently.\n',
     actionButton: 'Remote Jobs',
-    footer: '❤️‍🔥 Powered by Notion, Ghazlabs & Semboja',
+    footer: '❤️‍🔥 Notion, Redis, Ghazlabs & Semboja',
+    poweredBy: '❤️‍🔥 Powered by Notion, Ghazlabs & Semboja',
   },
   DATA_MAPPING: {
     TAGS: 'L{b{',

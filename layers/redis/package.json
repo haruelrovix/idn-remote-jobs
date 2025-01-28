@@ -1,0 +1,15 @@
+{
+  "name": "semboja-redis-layers",
+  "version": "1.0.0",
+  "description": "AWS Lambda layers for Redis",
+  "scripts": {
+    "deploy:dev": "sls deploy --stage dev",
+    "deploy:prod": "sls deploy --stage prod"
+  },
+  "author": "haruelrovix",
+  "license": "MIT",
+  "dependencies": {
+    "redis": "^4.7.0",
+    "redis-om": "^0.4.7"
+  }
+}

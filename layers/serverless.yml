@@ -19,6 +19,14 @@ layers:
       - nodejs22.x
     compatibleArchitectures:
       - x86_64
+  SembojaRedis:
+    path: redis
+    description: "Lambda layer contain Redis dependencies"
+    name: semboja-redis-layer-${sls:stage}
+    compatibleRuntimes:
+      - nodejs22.x
+    compatibleArchitectures:
+      - x86_64
 
 resources:
   Outputs:
@@ -28,3 +36,9 @@ resources:
         Ref: SembojaIDNRemoteJobsLambdaLayer
       Export:
         Name: ${self:service}:${sls:stage}:SembojaIDNRemoteJobsLayer
+    SembojaRedisLayerArn:
+      Description: "ARN of the Semboja Redis Layer"
+      Value:
+        Ref: SembojaRedisLambdaLayer
+      Export:
+        Name: ${self:service}:${sls:stage}:SembojaRedisLayer
