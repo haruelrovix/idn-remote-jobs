@@ -11,9 +11,13 @@ provider:
     name: ${self:service}-${sls:stage}
   environment:
     NODE_PATH: "./:/opt/node_modules"
-    SEMBOJA_API_URL: ${env:SEMBOJA_API_URL}
     SEMBOJA_API_KEY: ${env:SEMBOJA_API_KEY}
+    SEMBOJA_API_URL: ${env:SEMBOJA_API_URL}
     GOSHAWK_API_KEY: ${env:GOSHAWK_API_KEY}
+    GOSHAWK_API_URL: ${env:GOSHAWK_API_URL}
+    REDIS_URL: ${env:REDIS_URL}
+    REDIS_SEARCH_ENABLED: ${env:REDIS_SEARCH_ENABLED}
+    REDIS_CACHE_TTL: ${env:REDIS_CACHE_TTL}
 
 custom:
   serverless-offline:
@@ -24,6 +28,7 @@ functions:
   app:
     name: ${self:service}-app-${sls:stage}
     handler: dist/main.handler
+    timeout: 10
     events:
       - http:
           path: webhooks/remote-jobs
@@ -34,8 +39,15 @@ functions:
       - http:
           path: jobs/{id}
           method: get
+      - http:
+          path: remote-jobs
+          method: get
+      - http:
+          path: remote-jobs/unique-values
+          method: get
     layers:
       - { "Fn::ImportValue": "semboja-idn-remote-jobs-layers:${sls:stage}:SembojaIDNRemoteJobsLayer" }
+      - { "Fn::ImportValue": "semboja-idn-remote-jobs-layers:${sls:stage}:SembojaRedisLayer" }
 
 package:
   individually: true
